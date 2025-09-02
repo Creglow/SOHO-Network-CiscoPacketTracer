@@ -1,0 +1,61 @@
+=============================
+ Router Configuration (ISR4331)
+=============================
+
+enable
+conf t
+hostname Department-Router
+
+interface g0/0/0
+ no shut
+
+! VLAN 2 - IT
+int g0/0/0.2
+ encapsulation dot1Q 2
+ ip address 192.168.1.1 255.255.255.192
+
+! VLAN 3 - Finance
+int g0/0/0.3
+ encapsulation dot1Q 3
+ ip address 192.168.1.65 255.255.255.192
+
+! VLAN 4 - Customer Service
+int g0/0/0.4
+ encapsulation dot1Q 4
+ ip address 192.168.1.129 255.255.255.192
+
+end
+wr
+
+=============================
+ Switch Configuration (2960)
+=============================
+
+enable
+conf t
+hostname Department-Switch
+
+vlan 2
+ name IT
+vlan 3
+ name Finance
+vlan 4
+ name CustomerService
+
+int fa0/1
+ switchport mode trunk
+
+int fa0/2
+ switchport mode access
+ switchport access vlan 2
+
+int fa0/3
+ switchport mode access
+ switchport access vlan 3
+
+int fa0/4
+ switchport mode access
+ switchport access vlan 4
+
+end
+wr
